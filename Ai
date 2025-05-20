@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      background: #ffffff;
+      width: 350px;
+      max-width: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-box {
+      padding: 10px;
+      height: 400px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-box div {
+      margin: 5px 0;
+      padding: 8px 12px;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+
+    .user-message {
+      background: #007bff;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot-message {
+      background: #f1f0f0;
+      color: #000;
+      align-self: flex-start;
+    }
+
+    form {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      background: #007bff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box" id="chat-box">
+      <div class="bot-message">Hello! Ask me anything.</div>
+    </div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Type a message..." autocomplete="off" required>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const userMessage = input.value;
+      appendMessage('user-message', userMessage);
+      respond(userMessage);
+      input.value = '';
+    });
+
+    function appendMessage(className, text) {
+      const msg = document.createElement('div');
+      msg.className = className;
+      msg.textContent = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function respond(message) {
+      const msg = message.toLowerCase();
+      let response = "Sorry, I don't understand that.";
+
+      if (msg.includes('hello') || msg.includes('hi')) {
+        response = "Hi there! How can I help you?";
+      } else if (msg.includes('your name')) {
+        response = "I'm a simple chatbot!";
+      } else if (msg.includes('how are you')) {
+        response = "I'm doing great! Thanks for asking.";
+      } else if (msg.includes('bye')) {
+        response = "Goodbye! Have a nice day!";
+      }
+
+      setTimeout(() => {
+        appendMessage('bot-message', response);
+      }, 500);
+    }
+  </script>
+</body>
+</html>
